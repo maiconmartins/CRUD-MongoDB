@@ -6,7 +6,11 @@ var router = express.Router();
 
 //creating a new router using GET function, request and response
 router.get('/', (req, res) => {
-    res.json('sample'); // this is my response
+    
+    res.render("BucketList/AddEdit", {
+        viewTitle:"Insert Name"
+    
+    });
     
 });
 //exporting the router from the controller
