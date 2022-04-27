@@ -21,16 +21,17 @@ router.post('/', (req, res) => {
 
 
 });
+
 //This function will add the information from the form to MONGODB
 function insertData(req, res) {
 
-    var Bucket = new bucket();
-    Bucket.name = req.body.name;
+    var Bucket = new bucket();//object of bucket Schema
+    Bucket.name = req.body.name;//
     Bucket.nationality = req.body.nationality;
     Bucket.age = req.body.age;
     Bucket.dream = req.body.dream;
 
-    Bucket.save((err, doc) => {  // if there`s no error all the inserted will information will be listed
+    Bucket.save((err, doc) => {  //Saving the records, if there`s no error all the inserted will information will be listed
         if (!err)
             res.redirect('Bucket/list');
         else {
@@ -41,10 +42,22 @@ function insertData(req, res) {
 
     });
 }
-router.get('/list', (req,res) => {
-res.json('from list');
+//creating a router for the list, for that I`m using GET request, this will retrieve the information
+//from mongodb to my table
+router.get('/list', (req, res) => {
 
-} );
+    bucket.find((err, docs) => {
+        if (!err) {                              // if there is no error, we will return a view
+            res.render("BucketList/list", {     // calling render function from response 
+                list: docs                      //returning Documents into list
+            });
+        }
+        else {
+            console.log('Error in retrieving Bucket list :' + err);         //Error msg to be shown in case something goes wrong
+        }
+    }).lean();
+
+});
 
 
 //exporting the router from the controller

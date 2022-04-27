@@ -1,0 +1,28 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th> Name</th>
+            <th>Nationality </th>
+            <th>Age </th>
+            <th>Dream</th>
+            <th></th>
+        </tr>
+    </thead>
+    <!--    using index #each,  showing records from my database collection 'bucket' -->
+
+    <tbody>
+        {{#each list}}
+        <tr>
+            <td>{{this.name}}</td>
+            <td>{{this.nationality}}</td>
+            <td>{{this.age}}</td>
+            <td>{{this.dream}}</td>
+            <td>
+                <a ><button type="button" i class="bi bi-pencil">Edit</button></a>
+                <a ><button type="button" i class="bi bi-pencil">Delete</button></a>
+              
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
