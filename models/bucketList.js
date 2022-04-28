@@ -3,7 +3,7 @@ var Bucketschema = new mongoose.Schema({
 
     name: {
         type: String,
-        required: 'This field is required'
+        
     },
     nationality: {
         type: String

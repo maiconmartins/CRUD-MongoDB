@@ -1,40 +1,45 @@
-//reques statement for express
+// reques statement for express
 const express = require('express');
+const req = require('express/lib/request');
 var router = express.Router();
-const mongoose = require('mongoose');//request statement
-const bucket = mongoose.model('bucket');//variable that will store the bucket scheema into mongoose
+const mongoose = require('mongoose'); // request statement
+const bucket = mongoose.model('bucket');
+// variable that will store the bucket scheema into mongoose
 
-//creating a new router using GET function, request and response
-//this function will handle my request
+// creating a new router using GET function, request and response
+// this function will handle my request
 router.get('/', (req, res) => {
 
-    res.render("BucketList/AddEdit", {//rendering my file 
+    res.render("BucketList/AddEdit", { // rendering my file
 
-        viewTitle: "Bucket List"//
+        viewTitle: "Bucket List" //
 
     });
 
 });
-//Creating a new router using POST
+// Creating a new router using POST, here I can identify if I have an INSERT or UPDATE operation
 router.post('/', (req, res) => {
-    insertData(req, res); // calling the function created bellow
 
+    if (req.body._id == '')
+    insertData(req, res); //function Insert Data
+    else
+    updateData(req, res); //function updataData
 
 });
 
-//This function will add the information from the form to MONGODB
+// ----------------INSERT DATA TO MONGODB--------------------------------------------------
 function insertData(req, res) {
 
-    var Bucket = new bucket();//object of bucket Schema
-    Bucket.name = req.body.name;//
+    var Bucket = new bucket(); // object of bucket Schema
+    Bucket.name = req.body.name; //
     Bucket.nationality = req.body.nationality;
     Bucket.age = req.body.age;
     Bucket.dream = req.body.dream;
 
-    Bucket.save((err, doc) => {  //Saving the records, if there`s no error all the inserted will information will be listed
-        if (!err)
+    Bucket.save((err, doc) => { // Saving the records, if there`s no error all the inserted will information will be listed
+        if (!err) 
             res.redirect('Bucket/list');
-        else {
+         else {
 
             console.log('Error during proceediment' + err);
         }
@@ -42,23 +47,54 @@ function insertData(req, res) {
 
     });
 }
-//creating a router for the list, for that I`m using GET request, this will retrieve the information
-//from mongodb to my table
+//------------------------UPDATE DATA--------------------------------
+function updateData(req, res) {
+    bucket.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true }, (err, doc) => {
+        if (!err) { res.redirect('Bucket/list'); }        //if there is no error I will return the update values
+        else {                          
+            if (err.name == 'ValidationError') {                //if there is some error, I will return the validation error
+                handleValidationError(err, req.body);
+                res.render("Bucket/AddEdit", {
+                    viewTitle: 'Update User',
+                    bucket: req.body
+                });
+            }
+            else
+                console.log('Error during record update : ' + err); //if the error is not related to validation I will return the error
+        }
+    });
+}
+
+
+
+// creating a router for the list, for that I`m using GET request, this will retrieve the information
+// from mongodb to my table
 router.get('/list', (req, res) => {
 
     bucket.find((err, docs) => {
-        if (!err) {                              // if there is no error, we will return a view
-            res.render("BucketList/list", {     // calling render function from response 
-                list: docs                      //returning Documents into list
+        if (!err) { // if there is no error, we will return a view
+            res.render("BucketList/list", { // calling render function from response
+                list: docs // returning Documents into list
             });
-        }
-        else {
-            console.log('Error in retrieving Bucket list :' + err);         //Error msg to be shown in case something goes wrong
+        } else {
+            console.log('Error in retrieving Bucket list :' + err); // Error msg to be shown in case something goes wrong
         }
     }).lean();
 
 });
+// Creating a new route, this will retrieve  a specific user by ID into my UPDATE table
+
+router.get('/:id', (req, res) => {
+    bucket.findById(req.params.id, (err, doc) => { // finding user by id
+        if (!err) {
+            res.render("BucketList/AddEdit", { // rendering my file Add and eddit
+                viewTitle: "Update User",
+                bucket: doc
+            });
+        }
+    }).lean();
+});
 
 
-//exporting the router from the controller
+// exporting the router from the controller
 module.exports = router;
