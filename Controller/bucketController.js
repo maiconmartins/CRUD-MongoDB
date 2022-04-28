@@ -2,9 +2,8 @@
 const express = require('express');
 const req = require('express/lib/request');
 var router = express.Router();
-const mongoose = require('mongoose'); // request statement
-const bucket = mongoose.model('bucket');
-// variable that will store the bucket scheema into mongoose
+const mongoose = require('mongoose');       // request statement
+const bucket = mongoose.model('bucket');    // variable that will store the bucket scheema into mongoose
 
 // creating a new router using GET function, request and response
 // this function will handle my request
@@ -27,7 +26,7 @@ router.post('/', (req, res) => {
 
 });
 
-// ----------------INSERT DATA TO MONGODB--------------------------------------------------
+// ----------------INSERT NEW DATA TO MONGODB--------------------------------------------------
 function insertData(req, res) {
 
     var Bucket = new bucket(); // object of bucket Schema
@@ -66,7 +65,7 @@ function updateData(req, res) {
 }
 
 
-
+//------------------RETRIEVE INFORMATION FROM MONGODB TO MY TABLE-------------------------------------
 // creating a router for the list, for that I`m using GET request, this will retrieve the information
 // from mongodb to my table
 router.get('/list', (req, res) => {
@@ -82,9 +81,9 @@ router.get('/list', (req, res) => {
     }).lean();
 
 });
-// Creating a new route, this will retrieve  a specific user by ID into my UPDATE table
+//---------------------Retrieve information to UPDATE TABLE----------------------------
 
-router.get('/:id', (req, res) => {
+router.get('/:id', (req, res) => {          // this will retrieve  a specific user by ID into my UPDATE table
     bucket.findById(req.params.id, (err, doc) => { // finding user by id
         if (!err) {
             res.render("BucketList/AddEdit", { // rendering my file Add and eddit
@@ -93,6 +92,15 @@ router.get('/:id', (req, res) => {
             });
         }
     }).lean();
+});
+//-------------------DELETE OPERATION--------------------------------
+router.get('/delete/:id', (req, res) => {
+    bucket.findByIdAndRemove(req.params.id, (err, doc) => {
+        if (!err) {
+            res.redirect('/Bucket/list'); //if there is no error I wanna return an updated list 
+        }
+        else { console.log('Error in user delete :' + err); }
+    });
 });
 
 

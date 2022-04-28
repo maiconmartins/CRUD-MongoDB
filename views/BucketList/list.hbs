@@ -35,11 +35,16 @@ h1{text-align: center;
             <td>
 
                 
-                <a  href="/bucket/{{this._id}} "button type="button" i class="bi bi-pencil"><>Edit</button></a>
+                <!--------------------------Buttons Edit and Delete----------------->
 
+                <a button type="button" i class="bi bi-pencil"  href="/bucket/{{this._id}}">Edit</button></a>
+                 <a button type="button" i class="bi bi-pencil"  href="/bucket/delete/{{this._id}}
+                 " onclick="return confirm('Are you sure to delete this record ?');">Delete</button></a>
+
+                
                
               
-                <a ><button type="button" i class="bi bi-pencil">Delete</button></a>
+               
               
             </td>
         </tr>
