@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 var Bucketschema = new mongoose.Schema({
 
     name: {
-        type: String,
-        
+        type: String
+
     },
     nationality: {
         type: String
@@ -19,4 +19,4 @@ var Bucketschema = new mongoose.Schema({
 
 });
 
-mongoose.model('bucket' ,Bucketschema);
+mongoose.model('bucket', Bucketschema);

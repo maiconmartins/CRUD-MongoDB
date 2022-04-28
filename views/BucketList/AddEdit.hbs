@@ -1,32 +1,28 @@
-<h2> {{viewTitle}}</h2>
+< h2 > {{viewTitle}} < /h2>
 <!--Posting form data into our MONGODB DATABASE and Disable auto complete in my form-->
-<form action ="/bucket" method ="POST" autocomplete="off"> 
+<form action ="/bucket " method =" POST " autocomplete=" off "> 
+ < input type = "hidden" name = "_id" value ="{{bucket._id}}" > <!-- this hidden field holds the id--> <div class="form-group">
 
-<input type="hidden" name="_id" value="{{bucket._id}}"> <!-- this hidden field holds the id-->
+    <label>Name</label>
+    <input type="text" class="form-control" name="name" placeholder="Name" value="{{bucket.name}}"></div>
+
     <div class="form-group">
-      
-        <label>Name</label>
-        <input type="text" class="form-control" name="name" placeholder="Name"  value="{{bucket.name}}">
-    </div>
-
-      <div class="form-group">
         <label>Nationality</label>
-        <input type="text" class="form-control" name="nationality" placeholder="Nationality"  value="{{bucket.nationality}}">
-    </div>
+        <input type="text" class="form-control" name="nationality" placeholder="Nationality" value="{{bucket.nationality}}"></div>
 
-      <div class="form-group">
-        <label>Age</label>
-        <input type="text" class="form-control" name="age" placeholder="Age" value="{{bucket.age}}" >
-    </div>
+        <div class="form-group">
+            <label>Age</label>
+            <input type="text" class="form-control" name="age" placeholder="Age" value="{{bucket.age}}"></div>
 
-      <div class="form-group">
-        <label>Dream Country</label>
-        <input type="text" class="form-control" name="dream" placeholder="Country" value="{{bucket.dream}}" >
-    </div>
+            <div class="form-group">
+                <label>Dream Country</label>
+                <input type="text" class="form-control" name="dream" placeholder="Country" value="{{bucket.dream}}"></div>
 
-    <!--this is my submit button -->
-    <div class="form-group">
-        <button type="submit" class="btn btn-info"><i class="fa fa-database"></i> Submit</button>
-      <!--  <a class="btn btn-secondary" href="/employee/list"><i class="fa fa-list-alt"></i> View All</a> -->
-    </div>
-</form>
+                <!--this is my submit button -->
+                <div class="form-group">
+                    <button type="submit" class="btn btn-info">
+                        <i class="fa fa-database"></i>
+                        Submit</button>
+                   
+                </div>
+            </form>
